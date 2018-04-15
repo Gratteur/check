@@ -1,0 +1,77 @@
+<!--
+                            _         
+  ___    __ _   _ __     __| |  _   _ 
+ / __|  / _` | | '_ \   / _` | | | | |
+| (__  | (_| | | | | | | (_| | | |_| |
+ \___|  \__,_| |_| |_|  \__,_|  \__, |
+                                |___/ 
+-->        
+<title>GINTAMA</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">    
+	<link rel="shortcut icon" type="image/png" href="/static/icons/favicon.png" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+
+	<nav>
+		<ul class="brand-logo center">
+			<li>
+				<a href="/g">
+					<span>GINTOKI</span>
+				</a>
+			</li>
+			<li>
+				<a href="/s" >
+					<span>SHINPACHI</span>
+				</a>
+			</li>
+			<li>
+				<a href="/k">
+					<span>KAGURA</span>
+				</a>
+			</li>
+		</ul>
+		<ul class="right">
+			 {% if session['logged_in'] == True %}
+      <li><a href="/logout">LOGOUT</a></li>
+    {% else %}
+      <li><a href="/log">LOGIN</a></li>
+    {% endif %}
+	</nav>
+	
+    <div class="container">
+    <div class="row" href="/g">
+        <h3 class="center-align">g i n t o k i</h3>
+	
+        <div class="col s12 m6 offset-m3 l6 offset-l3">
+
+        <table class="highlight centered">
+            <thead>
+                <tr>
+                    <th>Rig</th>
+                    <th>Hashrate</th>
+                    <th>Average time</th>
+                    <th>Uptime</th>
+                </tr>
+            </thead>
+
+            <tbody>
+        {% for x, y in dict_rig.items() %}
+                <tr>
+                    <td>{{ x }}</td>
+                    <td>{{ y["hashrate"] }}</td>
+                    <td>{{ y["avg_time"] }}</td>
+                    <td>{{ y["uptime"] }}</td>
+                </tr>            
+        {% endfor %}
+            </tbody>
+        </table>
+
+        </div>
+    </div>
+    </div>
+	

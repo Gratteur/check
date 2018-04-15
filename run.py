@@ -21,6 +21,7 @@ def gintoki():
     dict_rig_number = {2: "202",
                        3: "203",
                        4: "204"}
+
     
     for x,y, in dict_rig_number.items():
         try:
@@ -31,6 +32,7 @@ def gintoki():
             dict_rig[x].update({"hashrate": response_json["hashrate"]["total"][1]})
             dict_rig[x].update({"avg_time": response_json["results"]["avg_time"]})
             dict_rig[x].update({"uptime": "{0}:{1:0>2}:{2:0>2}".format(int(uptime//3600), int(uptime//60%60), int(uptime%60))})
+            dict_rig[x].update({"url": "http://ripmundocrit.ddns.net:{0}/r".format(dict_rig_number[x])})
         except requests.exceptions.RequestException:
             dict_rig[x] = dict()
             dict_rig[x].update({"avg_time": "rig down."})

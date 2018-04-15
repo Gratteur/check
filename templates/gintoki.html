@@ -62,7 +62,7 @@
             <tbody>
         {% for x, y in dict_rig.items() %}
                 <tr>
-                    <td>{{ x }}</td>
+                    <td><a href='{{ y["url"] }}'>{{ x }}</a></td>
                     <td>{{ y["hashrate"] }}</td>
                     <td>{{ y["avg_time"] }}</td>
                     <td>{{ y["uptime"] }}</td>

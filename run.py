@@ -18,10 +18,12 @@ def home():
 def gintoki():
    
     dict_rig = {}
-    dict_rig_number = {2: "202",
+    dict_rig_number = {
+                       1: "201", 
+                       2: "202",
                        3: "203",
                        4: "204"}
-
+    list_hashrate = []
     
     for x,y, in dict_rig_number.items():
         try:
@@ -33,13 +35,17 @@ def gintoki():
             dict_rig[x].update({"avg_time": response_json["results"]["avg_time"]})
             dict_rig[x].update({"uptime": "{0}:{1:0>2}:{2:0>2}".format(int(uptime//3600), int(uptime//60%60), int(uptime%60))})
             dict_rig[x].update({"url": "http://ripmundocrit.ddns.net:{0}/r".format(dict_rig_number[x])})
+            list_hashrate.append(dict_rig[x]["hashrate"])
+
         except requests.exceptions.RequestException:
             dict_rig[x] = dict()
             dict_rig[x].update({"avg_time": "rig down."})
             dict_rig[x].update({"hashrate": "rig down."})
             dict_rig[x].update({"uptime": "rig down."})
+
+    total_hashrate = sum(list_hashrate)
             
-    return render_template('gintoki.html', dict_rig=dict_rig)
+    return render_template('gintoki.html', dict_rig=dict_rig, total_hashrate=total_hashrate)
     
 
 @app.route('/s')

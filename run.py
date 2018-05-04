@@ -43,7 +43,7 @@ def gintoki():
             dict_rig[x].update({"hashrate": "rig down."})
             dict_rig[x].update({"uptime": "rig down."})
 
-    total_hashrate = sum(list_hashrate)
+    total_hashrate = round(sum(list_hashrate),1)
             
     return render_template('gintoki.html', dict_rig=dict_rig, total_hashrate=total_hashrate)
     

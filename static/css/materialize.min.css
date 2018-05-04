@@ -2515,17 +2515,17 @@ nav ul a span.badge {
 }
 .container {
 	margin: 0 auto;
-	max-width: 1280px;
+	max-width: 90%;
 	width: 90%
 }
 @media only screen and (min-width: 601px) {
 	.container {
-		width: 85%
+		width: 100%
 	}
 }
 @media only screen and (min-width: 993px) {
 	.container {
-		width: 70%
+		width: 100%
 	}
 }
 .container .row {
@@ -3295,7 +3295,7 @@ nav ul a span.badge {
 nav {
 	color: #fff;
 	background-color: #ff4c4c;
-	width: 100%;
+	max-width: 100%;
 	height: 56px;
 	line-height: 56px;
 	text-align: center;
@@ -3532,19 +3532,10 @@ html {
 	0,
 	0.87)
 }
-@media only screen and (min-width: 0) {
+@media only screen and (min-width: 0) and (max-width: 1200px) {
 	html {
 		font-size:14px
-	}
-}
-@media only screen and (min-width: 992px) {
-	html {
-		font-size:14.5px
-	}
-}
-@media only screen and (min-width: 1200px) {
-	html {
-		font-size:15px
+		width:100%;
 	}
 }
 h1,

@@ -34,6 +34,7 @@ def gintoki():
             dict_rig[x].update({"hashrate": response_json["hashrate"]["total"][1]})
             dict_rig[x].update({"avg_time": response_json["results"]["avg_time"]})
             dict_rig[x].update({"uptime": "{0}:{1:0>2}:{2:0>2}".format(int(uptime//3600), int(uptime//60%60), int(uptime%60))})
+            dict_rig[x].update({"pool" : response_json["connection"]["pool"]})
             dict_rig[x].update({"url": "http://ripmundocrit.ddns.net:{0}/r".format(dict_rig_number[x])})
             list_hashrate.append(dict_rig[x]["hashrate"])
 
@@ -42,11 +43,11 @@ def gintoki():
             dict_rig[x].update({"avg_time": "rig down."})
             dict_rig[x].update({"hashrate": "rig down."})
             dict_rig[x].update({"uptime": "rig down."})
+            dict_rig[x].update({"pool" : "rig down."})
 
     total_hashrate = round(sum(list_hashrate),1)
             
     return render_template('gintoki.html', dict_rig=dict_rig, total_hashrate=total_hashrate)
-    
 
 @app.route('/s')
 def shinpachi():

@@ -67,8 +67,7 @@ def shinpachi():
             dict_rig[x].update({"uptime": "{0}:{1:0>2}:{2:0>2}".format(int(uptime//3600), int(uptime//60%60), int(uptime%60))})
             dict_rig[x].update({"pool" : response_json["pool"]["pool"]})
             #dict_rig[x].update({"temperature" : response_json["devices"][0]["temperature"]})
-            for device in response_json["devices"]:
-                print("candyyyy", device["temperature"])
+            dict_rig[x].update({"temperature": [device["temperature"] for device in response_json["devices"]]})
             
             dict_rig[x].update({"url": "http://ripmundocrit.ddns.net:{0}".format(dict_rig_number[x])})
             list_hashrate.append(dict_rig[x]["hashrate"])

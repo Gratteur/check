@@ -51,6 +51,9 @@ def gintoki():
 def shinpachi():
     
     dict_rig = {}
+    dict_rig_number = {
+                       1: "301", 
+                       }
     list_hashrate = []
     for x,y, in dict_rig_number.items():
         try:

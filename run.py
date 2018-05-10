@@ -21,8 +21,7 @@ def gintoki():
     dict_rig_number = {
                        1: "201", 
                        2: "202",
-                       3: "203",
-                       4: "204"}
+                       3: "203",}
     list_hashrate = []
     
     for x,y, in dict_rig_number.items():
@@ -51,7 +50,35 @@ def gintoki():
 
 @app.route('/s')
 def shinpachi():
-        return render_template('shinpachi.html')
+    
+    dict_rig1 = {}
+    dict_rig1_number = {
+                       1: "301",}
+    list_hashrate1 = []
+    for x,y, in dict_rig1_number.items():
+        try:
+            response = requests.get("http://ripmundocrit.ddns.net:{0}".format(y), timeout=4)
+            response_json = json.loads(response.text)
+            uptime = response_json["mining_time"]
+            dict_rig1[x] = dict()
+            dict_rig1[x].update({"hashrate": response_json["hashrate_total_now"]})
+            dict_rig1[x].update({"avg_time": response_json["shares"]["avg_find_time"]})
+            dict_rig1[x].update({"uptime": "{0}:{1:0>2}:{2:0>2}".format(int(uptime//3600), int(uptime//60%60), int(uptime%60))})
+            dict_rig1[x].update({"pool" : response_json["pool"]["pool"]})
+            dict_rig1[x].update({"temperature" : response_json["devices"][0]["temperature"]})
+            dict_rig1[x].update({"url": "http://ripmundocrit.ddns.net:{0}".format(dict_rig1_number[x])})
+            list_hashrate1.append(dict_rig1[x]["hashrate"])
+
+        except requests.exceptions.RequestException:
+            dict_rig1[x] = dict()
+            dict_rig1[x].update({"avg_time": "rig down."})
+            dict_rig1[x].update({"hashrate": "rig down."})
+            dict_rig1[x].update({"uptime": "rig down."})
+            dict_rig1[x].update({"pool" : "rig down."})
+
+    total_hashrate1 = round(sum(list_hashrate1),1)
+            
+    return render_template('shinpachi.html', dict_rig1=dict_rig1, total_hashrate1=total_hashrate1)
 
 @app.route('/k')
 def kagura():

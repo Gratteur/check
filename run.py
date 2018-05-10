@@ -60,9 +60,10 @@ def shinpachi():
             response = requests.get("http://ripmundocrit.ddns.net:{0}".format(y), timeout=4)
             response_json = json.loads(response.text)
             uptime = response_json["mining_time"]
+            avg_time = response_json["mining_time"] / response_json["shares"]["accepted"]
             dict_rig1[x] = dict()
             dict_rig1[x].update({"hashrate": response_json["hashrate_total_now"]})
-            dict_rig1[x].update({"avg_time": response_json["shares"]["avg_find_time"]})
+            dict_rig1[x].update({"avg_time": "{0}".format((avg_time%60.0))})
             dict_rig1[x].update({"uptime": "{0}:{1:0>2}:{2:0>2}".format(int(uptime//3600), int(uptime//60%60), int(uptime%60))})
             dict_rig1[x].update({"pool" : response_json["pool"]["pool"]})
             dict_rig1[x].update({"temperature" : response_json["devices"][0]["temperature"]})

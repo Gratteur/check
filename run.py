@@ -63,7 +63,7 @@ def shinpachi():
             avg_time = response_json["mining_time"] / response_json["shares"]["accepted"]
             dict_rig[x] = dict()
             dict_rig[x].update({"hashrate": response_json["hashrate_total_now"]})
-            dict_rig[x].update({"avg_time": "{0}".format((avg_time%60.0))})
+            dict_rig[x].update({"avg_time": "{0:.2f}".format(avg_time)})
             dict_rig[x].update({"uptime": "{0}:{1:0>2}:{2:0>2}".format(int(uptime//3600), int(uptime//60%60), int(uptime%60))})
             dict_rig[x].update({"pool" : response_json["pool"]["pool"]})
             #dict_rig[x].update({"temperature" : response_json["devices"][0]["temperature"]})

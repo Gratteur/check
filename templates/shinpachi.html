@@ -21,7 +21,7 @@
             </thead>
 
             <tbody>
-        {% for x, y in dict_rig1.items() %}
+        {% for x, y in dict_rig.items() %}
                 <tr>
                     <td><a href='{{ y["url"] }}'>{{ x }}</a></td>
                     <td>{{ y["hashrate"] }}</td>
@@ -46,7 +46,7 @@
         </thead>
 
         <tbody>
-            {% for x, y in dict_rig1.items() %}
+            {% for x, y in dict_rig.items() %}
             <tr>
                 <td>{{x}}</td>
                 <td>{{ y["pool"] }}</td>

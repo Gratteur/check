@@ -6,7 +6,7 @@
 <html>
 <body>
     <div class="container">
-    <div class="row" href="/g">
+    <div class="row">
         <h3 class="center-align">g i n t o k i</h3>
         <div class="col s12 m6 offset-m3 l6 offset-l3">
     <br>
@@ -46,6 +46,58 @@
 
         <tbody>
             {% for x, y in dict_rig.items() %}
+            <tr>
+                <td>{{x}}</td>
+                <td>{{ y["pool"] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    </div>
+    </div>
+</div>
+    <br>
+    <div class="container">
+    <div class="row">
+        <h3 class="center-align">s h i n p a c h i</h3>
+        <div class="col s12 m6 offset-m3 l6 offset-l3">
+    <br>
+        <table class="highlight centered">
+            <thead>
+                <tr>
+                    <th>Rig</th>
+                    <th>Hashrate</th>
+                    <th>Average time</th>
+                    <th>Uptime</th>
+                </tr>
+            </thead>
+
+            <tbody>
+        {% for x, y in dict_rig1.items() %}
+                <tr>
+                    <td><a href='{{ y["url"] }}'>{{ x }}</a></td>
+                    <td>{{ y["hashrate"] }}</td>
+                    <td>{{ y["avg_time"] }}</td>
+                    <td>{{ y["uptime"] }}</td>
+                </tr>            
+        {% endfor %}
+            </tbody>
+        </table>
+    <br>
+    <div class="center-align">
+        <b>TOTAL HASHRATE : </b>{{ total_hashrate1 }}
+    </div>
+    <br>
+    <table class="highlight centered">
+        <thead>
+        <tr>
+            <th>Rig</th>
+            <th>Pool adress</th>
+        </tr>
+        </thead>
+
+        <tbody>
+            {% for x, y in dict_rig1.items() %}
             <tr>
                 <td>{{x}}</td>
                 <td>{{ y["pool"] }}</td>

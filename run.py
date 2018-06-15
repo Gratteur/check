@@ -4,6 +4,8 @@ from flask import Flask, flash, redirect, render_template, request, session, abo
 import requests
 import json
 import os
+from urllib.request import Request, urlopen
+from lxml import etree
 app = Flask(__name__)
 
 @app.route('/')
@@ -39,7 +41,7 @@ def gintoki():
             for key in list_key:
                 dict_rig[x].update({key: "rig down."})
 
-    total_hashrate = round(sum(list_hashrate),1)
+    total_hashrate = round(sum(list_hashrate), 1)
 
     dict_rig1 = {}
     dict_rig1_number = {
@@ -67,9 +69,43 @@ def gintoki():
             for key in list_key:
                 dict_rig1[x].update({key: "rig down."})
 
-    total_hashrate1 = round(sum(list_hashrate1),1)
-            
-    return render_template('gintoki.html', dict_rig=dict_rig, dict_rig1=dict_rig1, total_hashrate1=total_hashrate1, total_hashrate=total_hashrate)
+    total_hashrate1 = round(sum(list_hashrate1), 1)
+
+    site= "https://www.cryptunit.com/?order=price3h"
+    hdr = {'User-Agent': 'Mozilla/5.0'}
+    req = Request(site, headers=hdr)
+    response = urlopen(req)
+    htmlparser = etree.HTMLParser()
+    tree = etree.parse(response, htmlparser)
+    list_coin =  ['electroneum', 'graft']
+    dict_coin = {}
+    for coin in list_coin:
+        list_values = tree.xpath(f'//div[@class="{coin}"]//ul/li/a/label/text()')
+        dict_coin.update({coin: {
+            "price": float(list_values[0]),
+            "hashrate": float(list_values[3])*1000000,
+            "reward": float(list_values[4])
+        }}) 
+
+    dict_formula = {} 
+    for coin in list_coin:
+        dict_formula.update({coin: (total_hashrate/dict_coin[coin]["hashrate"]) *
+                                    dict_coin[coin]["reward"] *
+                                    dict_coin[coin]["price"] *
+                                    720
+                                    })
+
+    coin_to_mine = max(dict_formula, key=lambda key: dict_formula[key])
+    dict_coin_int = {"electroneum": 1, "graft": 2}
+    coin_to_mine = dict_coin_int[coin_to_mine]
+
+    print("\n... dict_coin here:", dict_coin)
+    print("\n... dict_formula here:", dict_formula)
+    print("\n... coin_to_mine:", coin_to_mine)
+
+    return render_template('gintoki.html', dict_rig=dict_rig, dict_rig1=dict_rig1,
+                            total_hashrate1=total_hashrate1, total_hashrate=total_hashrate, 
+                            dict_coin=dict_coin, coin_to_mine = coin_to_mine)
 
 #dict_rig[x].update({"temperature": [device["temperature"] for device in response_json["devices"]]})
 

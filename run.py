@@ -79,6 +79,7 @@ def gintoki():
     tree = etree.parse(response, htmlparser)
     list_coin =  ['electroneum', 'graft']
     dict_coin = {}
+    dict_formula = {} 
     for coin in list_coin:
         list_values = tree.xpath(f'//div[@class="{coin}"]//ul/li/a/label/text()')
         dict_coin.update({coin: {
@@ -86,9 +87,6 @@ def gintoki():
             "hashrate": float(list_values[3])*1000000,
             "reward": float(list_values[4])
         }}) 
-
-    dict_formula = {} 
-    for coin in list_coin:
         dict_formula.update({coin: (total_hashrate/dict_coin[coin]["hashrate"]) *
                                     dict_coin[coin]["reward"] *
                                     dict_coin[coin]["price"] *

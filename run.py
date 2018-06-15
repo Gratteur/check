@@ -4,6 +4,8 @@ from flask import Flask, flash, redirect, render_template, request, session, abo
 import requests
 import json
 import os
+from urllib.request import Request, urlopen
+from lxml import etree
 app = Flask(__name__)
 
 @app.route('/')
@@ -68,8 +70,24 @@ def gintoki():
                 dict_rig1[x].update({key: "rig down."})
 
     total_hashrate1 = round(sum(list_hashrate1),1)
-            
-    return render_template('gintoki.html', dict_rig=dict_rig, dict_rig1=dict_rig1, total_hashrate1=total_hashrate1, total_hashrate=total_hashrate)
+
+    site= "https://www.cryptunit.com/?order=price3h"
+    hdr = {'User-Agent': 'Mozilla/5.0'}
+    req = Request(site, headers=hdr)
+    response = urlopen(req)
+    htmlparser = etree.HTMLParser()
+    tree = etree.parse(response, htmlparser)
+    list_coin =  ['electroneum', 'graft']
+    dict_coin = {}
+ 
+    for coin in list_coin:
+        list_values = tree.xpadth(f'//div[@class="{coin}"]//ul/li/a/label/text()')
+        dict_coin.update("coin": coin)
+        dict_coin.update("price": list_values[0])
+        dict_coin.update("hashrate": list_values[3])
+        dict_coin.update("reward": list_values[4])
+
+    return render_template('gintoki.html', dict_rig=dict_rig, dict_rig1=dict_rig1, total_hashrate1=total_hashrate1, total_hashrate=total_hashrate, dict_coin=dict_coin)
 
 #dict_rig[x].update({"temperature": [device["temperature"] for device in response_json["devices"]]})
 

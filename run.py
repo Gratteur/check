@@ -79,13 +79,15 @@ def gintoki():
     tree = etree.parse(response, htmlparser)
     list_coin =  ['electroneum', 'graft']
     dict_coin = {}
- 
     for coin in list_coin:
-        list_values = tree.xpadth(f'//div[@class="{coin}"]//ul/li/a/label/text()')
-        dict_coin.update("coin": coin)
-        dict_coin.update("price": list_values[0])
-        dict_coin.update("hashrate": list_values[3])
-        dict_coin.update("reward": list_values[4])
+        list_values = tree.xpath(f'//div[@class="{coin}"]//ul/li/a/label/text()')
+        dict_coin.update({coin: {
+            "price": list_values[0],
+            "hashrate": list_values[3],
+            "reward": list_values[4]
+        }}) 
+
+    print("\n... dict_coin here:", dict_coin)
 
     return render_template('gintoki.html', dict_rig=dict_rig, dict_rig1=dict_rig1, total_hashrate1=total_hashrate1, total_hashrate=total_hashrate, dict_coin=dict_coin)
 

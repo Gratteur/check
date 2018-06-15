@@ -43,8 +43,8 @@ def gintoki():
 
     dict_rig1 = {}
     dict_rig1_number = {
-                       1: "301",
-                       2: "302",
+                       #1: "301",
+                       #2: "302",
                        }
     list_hashrate1 = []
     

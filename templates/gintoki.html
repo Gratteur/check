@@ -73,18 +73,14 @@
             </thead>
 
             <tbody>
+                {% for coin in ["electroneum", "graft"] %}
                 <tr>
-                    <td>Electroneum</td>
-                    <td>{{dict_coin["electroneum"]["price"]}} $</td>
-                    <td>{{dict_coin["electroneum"]["hashrate"]/1000000}} Mh</td>
-                    <td>{{dict_formula["electroneum"]}} $/day</td>
+                    <td><{{ coin|title }}/td>
+                    <td>{{ '{0:0.5f}'.format(dict_coin[coin]["price"]) }} €</td>
+                    <td>{{dict_coin[coin]["hashrate"]/1000000}} Mh</td>
+                    <td>{{ '{0:0.2f}'.format(dict_formula[coin]) }} €/day</td>
                 </tr>
-                <tr>
-                    <td>Graft</td>
-                    <td>{{dict_coin["graft"]["price"]}} $</td>
-                    <td>{{dict_coin["graft"]["hashrate"]/1000000}} Mh</td>
-                    <td>{{dict_formula["graft"]}} $/day</td>                    
-                </tr>
+                {% endfor %}
             </tbody>
         </table>
 <!--         <table class="highlight centered">

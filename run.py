@@ -77,7 +77,7 @@ def gintoki():
 
     total_hashrate1 = round(sum(list_hashrate1), 1)
 
-    site= "https://www.cryptunit.com/?order=price3h"
+    site= "https://www.cryptunit.com/?order=price3h&?filter=all"
     hdr = {'User-Agent': 'Mozilla/5.0'}
     req = Request(site, headers=hdr)
     response = urlopen(req)
@@ -92,12 +92,12 @@ def gintoki():
     for coin in list_coin:
         list_values = tree.xpath(f'//div[@class="{coin}"]//ul/li/a/label/text()')
         dict_coin.update({coin: {
-            "price": float(list_values[0]) * response_json["EUR_USD"]["val"],
+            "price": float(list_values[0]) / response_json["EUR_USD"]["val"],
             "hashrate": float(list_values[3])*1000000,
             "reward": float(list_values[4])
         }}) 
         profitability = (total_hashrate/dict_coin[coin]["hashrate"]) * dict_coin[coin]["reward"] * dict_coin[coin]["price"] * 720
-        dict_formula.update({coin: round(profitability, 2)})
+        dict_formula.update({coin: profitability})
 
     coin_to_mine = max(dict_formula, key=lambda key: dict_formula[key])
     dict_coin_int = {"electroneum": 1, "graft": 2}

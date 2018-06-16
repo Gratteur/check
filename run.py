@@ -208,6 +208,11 @@ def get_miner ():
     print("\n... dict_formula here:", dict_formula)
     print("\n... coin_to_mine:", coin_to_mine)
 
+
+    dict_coin = {
+            '1' : "Electroneum",
+            '2' : "Graft"
+            }
     dict_result_a1 = {
             'switch': 1 if coin_to_mine != dict_rig[1]["coin"] else 0,
             'coin_to_mine': coin_to_mine,
@@ -224,7 +229,7 @@ def get_miner ():
             'coin_current': dict_rig[3]["coin"]
             }
 
-    return jsonify({'A1': dict_result_a1},{'A2': dict_result_a2},{'A3': dict_result_a3})
+    return jsonify({'Coin': dict_coin},{'A1': dict_result_a1},{'A2': dict_result_a2},{'A3': dict_result_a3})
 
 #dict_rig[x].update({"temperature": [device["temperature"] for device in response_json["devices"]]})
 

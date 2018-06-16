@@ -75,7 +75,7 @@
             <tbody>
                 {% for coin in ["electroneum", "graft"] %}
                 <tr>
-                    <td><{{ coin|title }}/td>
+                    <td>{{ coin|title }}</td>
                     <td>{{ '{0:0.5f}'.format(dict_coin[coin]["price"]) }} €</td>
                     <td>{{dict_coin[coin]["hashrate"]/1000000}} Mh</td>
                     <td>{{ '{0:0.2f}'.format(dict_formula[coin]) }} €/day</td>

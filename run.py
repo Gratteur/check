@@ -93,11 +93,8 @@ def gintoki():
             "hashrate": float(list_values[3])*1000000,
             "reward": float(list_values[4])
         }}) 
-        dict_formula.update({coin: (total_hashrate/dict_coin[coin]["hashrate"]) *
-                                    dict_coin[coin]["reward"] *
-                                    dict_coin[coin]["price"] *
-                                    720
-                                    })
+        profitability = (total_hashrate/dict_coin[coin]["hashrate"]) * dict_coin[coin]["reward"] * dict_coin[coin]["price"] * 720
+        dict_formula.update({coin: round(profitability, 2)})
 
     coin_to_mine = max(dict_formula, key=lambda key: dict_formula[key])
     dict_coin_int = {"electroneum": 1, "graft": 2}

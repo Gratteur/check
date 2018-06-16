@@ -86,10 +86,13 @@ def gintoki():
     list_coin =  ['electroneum', 'graft']
     dict_coin = {}
     dict_formula = {} 
+    response = requests.get("http://free.currencyconverterapi.com/api/v5/convert?q=EUR_USD&compact=y", timeout=4)
+    response_json = json.loads(response.text)
+
     for coin in list_coin:
         list_values = tree.xpath(f'//div[@class="{coin}"]//ul/li/a/label/text()')
         dict_coin.update({coin: {
-            "price": float(list_values[0]),
+            "price": float(list_values[0]) * response_json["EUR_USD"]["val"],
             "hashrate": float(list_values[3])*1000000,
             "reward": float(list_values[4])
         }}) 
@@ -99,6 +102,8 @@ def gintoki():
     coin_to_mine = max(dict_formula, key=lambda key: dict_formula[key])
     dict_coin_int = {"electroneum": 1, "graft": 2}
     coin_to_mine = dict_coin_int[coin_to_mine]
+
+
     
     print("\n... dict_rig here:", dict_rig)
     print("\n... dict_coin here:", dict_coin)

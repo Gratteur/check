@@ -1,6 +1,6 @@
 ﻿	$a = Get-Date
 	$a.ToUniversalTime()
-	$res = Invoke-WebRequest -UseBasicParsing -Uri http://ripmundocrit.ddns.net/api -TimeoutSec 20
+	$res = Invoke-WebRequest -UseBasicParsing -Uri http://ripmundocrit.ddns.net:1000/api -TimeoutSec 20
 	$data = $res | ConvertFrom-Json
 	$switch = $data.result.switch
     $coin = $data.result.coin_to_mine

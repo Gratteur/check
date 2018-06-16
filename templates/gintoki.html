@@ -64,6 +64,31 @@
     <br>
         <table class="highlight centered">
             <thead>
+            <tr>
+                <th>Coin</th>
+                <th>Price</th>
+                <th>Network</th>
+                <th>Profitability</th>
+            </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <td>Electroneum</td>
+                    <td>{{dict_coin["electroneum"]["price"]}} $</td>
+                    <td>{{dict_coin["electroneum"]["hashrate"]/1000000}} Mh</td>
+                    <td>{{dict_formula["electroneum"]}} $/day</td>
+                </tr>
+                <tr>
+                    <td>Graft</td>
+                    <td>{{dict_coin["graft"]["price"]}} $</td>
+                    <td>{{dict_coin["graft"]["hashrate"]/1000000}} Mh</td>
+                    <td>{{dict_formula["graft"]}} $/day</td>                    
+                </tr>
+            </tbody>
+        </table>
+<!--         <table class="highlight centered">
+            <thead>
                 <tr>
                     <th>Rig</th>
                     <th>Hashrate</th>
@@ -103,7 +128,7 @@
                 <td>{{ y["pool"] }}</td>
             </tr>
             {% endfor %}
-        </tbody>
+        </tbody> -->
         </div>
     </div>
     </div>

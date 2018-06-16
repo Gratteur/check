@@ -107,7 +107,7 @@ def gintoki():
 
     return render_template('gintoki.html', dict_rig=dict_rig, dict_rig1=dict_rig1,
                             total_hashrate1=total_hashrate1, total_hashrate=total_hashrate, 
-                            dict_coin=dict_coin, coin_to_mine = coin_to_mine)
+                            dict_coin=dict_coin, coin_to_mine = coin_to_mine, dict_formula=dict_formula)
 
 #dict_rig[x].update({"temperature": [device["temperature"] for device in response_json["devices"]]})
 

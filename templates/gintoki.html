@@ -5,6 +5,7 @@
 {% block content %}
 <html>
 <body>
+    <br>
     <div class="container">
     <div class="row">
         <h3 class="center-align">g i n t o k i</h3>
@@ -75,8 +76,8 @@
             <tbody>
                 {% for coin in ["electroneum", "graft"] %}
                 <tr>
-                    <td>{{ coin|title }}</td>
-                    <td>{{ '{0:0.5f}'.format(dict_coin[coin]["price"]) }} €</td>
+                    <td><b>{{ coin|title }}</b></td>
+                    <td>{{ '{0:0.4f}'.format(dict_coin[coin]["price"]) }} €</td>
                     <td>{{dict_coin[coin]["hashrate"]/1000000}} Mh</td>
                     <td>{{ '{0:0.2f}'.format(dict_formula[coin]) }} €/day</td>
                 </tr>

@@ -119,7 +119,7 @@ def gintoki():
                             total_hashrate1=total_hashrate1, total_hashrate=total_hashrate, 
                             dict_coin=dict_coin, coin_to_mine = coin_to_mine, dict_formula=dict_formula)
 
-@app.route('/api/v1/miner', methods=['GET'])
+@app.route('/api', methods=['GET'])
 def get_miner():
     return jsonify({'result': dict_result})
 

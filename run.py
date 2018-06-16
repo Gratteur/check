@@ -20,9 +20,10 @@ def gintoki():
                        1: "201", 
                        2: "202",
                        3: "203",}
+    dict_pool_int = {"etn": 1, "graft": 2}
     list_hashrate = []
     
-    for x,y, in dict_rig_number.items():
+    for x, y in dict_rig_number.items():
         try:
             response = requests.get("http://ripmundocrit.ddns.net:{0}/API.json".format(y), timeout=4)
             response_json = json.loads(response.text)
@@ -33,11 +34,16 @@ def gintoki():
             dict_rig[x].update({"uptime": "{0}:{1:0>2}:{2:0>2}".format(int(uptime//3600), int(uptime//60%60), int(uptime%60))})
             dict_rig[x].update({"pool" : response_json["connection"]["pool"]})
             dict_rig[x].update({"url": "http://ripmundocrit.ddns.net:{0}/r".format(dict_rig_number[x])})
+
+            for key in dict_pool_int.keys():
+                if key in dict_rig[x]["pool"]:
+                    dict_rig[x].update({"coin": dict_pool_int[key]})
+
             list_hashrate.append(dict_rig[x]["hashrate"])
 
         except requests.exceptions.RequestException:
             dict_rig[x] = dict()
-            list_key = ["avg_time", "hashrate", "uptime", "pool"]
+            list_key = ["avg_time", "hashrate", "uptime", "pool", "url"]
             for key in list_key:
                 dict_rig[x].update({key: "rig down."})
 
@@ -50,7 +56,7 @@ def gintoki():
                        }
     list_hashrate1 = []
     
-    for x,y, in dict_rig1_number.items():
+    for x, y in dict_rig1_number.items():
         try:
             response = requests.get("http://ripmundocrit.ddns.net:{0}/API.json".format(y), timeout=4)
             response_json = json.loads(response.text)
@@ -65,7 +71,7 @@ def gintoki():
 
         except requests.exceptions.RequestException:
             dict_rig1[x] = dict()
-            list_key = ["avg_time", "hashrate", "uptime", "pool"]
+            list_key = ["avg_time", "hashrate", "uptime", "pool", "url"]
             for key in list_key:
                 dict_rig1[x].update({key: "rig down."})
 
@@ -96,7 +102,8 @@ def gintoki():
     coin_to_mine = max(dict_formula, key=lambda key: dict_formula[key])
     dict_coin_int = {"electroneum": 1, "graft": 2}
     coin_to_mine = dict_coin_int[coin_to_mine]
-
+    
+    print("\n... dict_rig here:", dict_rig)
     print("\n... dict_coin here:", dict_coin)
     print("\n... dict_formula here:", dict_formula)
     print("\n... coin_to_mine:", coin_to_mine)

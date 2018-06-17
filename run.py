@@ -43,7 +43,7 @@ def gintoki():
 
         except requests.exceptions.RequestException:
             dict_rig[x] = dict()
-            list_key = ["avg_time", "hashrate", "uptime", "pool", "url"]
+            list_key = ["avg_time", "hashrate", "uptime", "pool", "url", "coin"]
             for key in list_key:
                 dict_rig[x].update({key: "rig down."})
 
@@ -143,7 +143,7 @@ def get_miner ():
 
         except requests.exceptions.RequestException:
             dict_rig[x] = dict()
-            list_key = ["avg_time", "hashrate", "uptime", "pool", "url"]
+            list_key = ["avg_time", "hashrate", "uptime", "pool", "url", "coin"]
             for key in list_key:
                 dict_rig[x].update({key: "rig down."})
 
@@ -213,23 +213,15 @@ def get_miner ():
             '1' : "Electroneum",
             '2' : "Graft"
             }
-    dict_result_a1 = {
-            'switch': 1 if coin_to_mine != dict_rig[1]["coin"] else 0,
+    dict_result = {}
+    for rig in dict_rig_number.keys():
+        dict_result.update({f'A{rig}': {
+            'switch': 1 if coin_to_mine != dict_rig[rig]["coin"] and isinstance(dict_rig[rig]["coin"], int) else 0,
             'coin_to_mine': coin_to_mine,
-            'coin_current': dict_rig[1]["coin"]
-            }
-    dict_result_a2 = {
-            'switch': 1 if coin_to_mine != dict_rig[2]["coin"] else 0,
-            'coin_to_mine': coin_to_mine,
-            'coin_current': dict_rig[2]["coin"]
-            }
-    dict_result_a3 = {
-            'switch': 1 if coin_to_mine != dict_rig[3]["coin"] else 0,
-            'coin_to_mine': coin_to_mine,
-            'coin_current': dict_rig[3]["coin"]
-            }
+            'coin_current': dict_rig[rig]["coin"]
+            }})
 
-    return jsonify({'Coin': dict_coin},{'A1': dict_result_a1},{'A2': dict_result_a2},{'A3': dict_result_a3})
+    return jsonify({'Coin': dict_coin},{'dict_result': dict_result})
 
 #dict_rig[x].update({"temperature": [device["temperature"] for device in response_json["devices"]]})
 

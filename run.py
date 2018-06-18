@@ -26,12 +26,16 @@ def renard():
                 'graft': {
                         'coinmarketcap': 'https://api.coinmarketcap.com/v2/ticker/2571/',
                         'hashvault': 'https://graft.hashvault.pro/api/network/stats'
+                    },
+                'btc': {
+                        'coinmarketcap': 'https://api.coinmarketcap.com/v2/ticker/1/'
                     }
             }
 
     dict_coin_values = {
                 'etn': {},
-                'graft': {}
+                'graft': {},
+                'btc': {}
             }
 
     for k, v in dict_coin_all.items():

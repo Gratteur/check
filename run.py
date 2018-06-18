@@ -76,7 +76,7 @@ def butterfly():
 
     total_hashrate1 = round(sum(list_hashrate1), 1)
 
-    site= "https://www.cryptunit.com/?order=price3h&?filter=all"
+    site= "https://www.cryptunit.com/?order=price1h&?filter=all"
     hdr = {'User-Agent': 'Mozilla/5.0'}
     req = Request(site, headers=hdr)
     response = urlopen(req)

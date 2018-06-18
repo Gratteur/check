@@ -12,6 +12,55 @@ app = Flask(__name__)
 def home():
     return redirect(('/g'))
 
+def renard():
+
+    url = 'http://free.currencyconverterapi.com/api/v5/convert?q=EUR_USD&compact=y'
+    response_json = json.loads(requests.get(url, timeout=4).text)
+    eur_usd = response_json["EUR_USD"]["val"]
+
+    dict_coin_all = {
+                'etn': {
+                        'coinmarketcap': 'https://api.coinmarketcap.com/v2/ticker/2137/',
+                        'hashvault': 'https://electroneum.hashvault.pro/api/network/stats'
+                    },
+                'graft': {
+                        'coinmarketcap': 'https://api.coinmarketcap.com/v2/ticker/2571/',
+                        'hashvault': 'https://graft.hashvault.pro/api/network/stats'
+                    }
+            }
+
+    dict_coin_values = {
+                'etn': {},
+                'graft': {}
+            }
+
+    for k, v in dict_coin_all.items():
+        for _, v2 in v.items():
+            if 'coinmarketcap' in _:
+                url = v2
+                response_json = json.loads(requests.get(url, timeout=4).text)
+                dict_coin_values[k].update({
+                    'price_usd': response_json['data']['quotes']['USD']['price'],
+                    'price_eur': response_json['data']['quotes']['USD']['price']/eur_usd,
+                    'percent_change_1h': response_json['data']['quotes']['USD']['percent_change_1h'],
+                    'percent_change_24h': response_json['data']['quotes']['USD']['percent_change_24h'],
+                    'percent_change_7d': response_json['data']['quotes']['USD']['percent_change_7d'],
+                })
+            else:
+                url = v2 
+                response_json = json.loads(requests.get(url, timeout=4).text)
+                dict_coin_values[k].update({'difficulty': response_json['difficulty']/120})
+                if 'graft' in k: dict_coin_values[k].update({'block_reward': float(f"{str(response_json['value'])[:-10]}.{str(response_json['value'])[-10:]}")})
+                elif 'etn' in k: dict_coin_values[k].update({'block_reward': float(f"{str(response_json['value'])[:-2]}.{str(response_json['value'])[-2:]}")})
+            
+    
+
+    print('\n... dict_coin_values:', dict_coin_values)
+    return dict_coin_values
+
+renard()
+
+
 def butterfly():
 
     dict_rig = {}

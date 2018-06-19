@@ -1,16 +1,117 @@
-#candy aigle noir
 from datetime import datetime
+import time
 from flask import Flask, flash, redirect, render_template, request, session, abort, url_for, jsonify
 import requests
 import json
 import os
 from urllib.request import Request, urlopen
 from lxml import etree
+
 app = Flask(__name__)
+
 
 @app.route('/')
 def home():
+
     return redirect(('/g'))
+
+
+def jason(url):
+
+    return json.loads(requests.get(url).text)
+
+
+def virgule(amount, index):
+
+    return float(f"{str(amount)[:-index]}.{str(amount)[-index:]}")
+
+
+def renard():
+
+    url = 'http://free.currencyconverterapi.com/api/v5/convert?q=EUR_USD&compact=y'
+    eur_usd = jason(url)["EUR_USD"]["val"]
+
+    dict_coin_all = {
+                'etn': {
+                        'coinmarketcap': 'https://api.coinmarketcap.com/v2/ticker/2137/',
+                        'hashvault': 'https://electroneum.hashvault.pro/api/network/stats'
+                    },
+                'graft': {
+                        'coinmarketcap': 'https://api.coinmarketcap.com/v2/ticker/2571/',
+                        'hashvault': 'https://graft.hashvault.pro/api/network/stats'
+                    },
+                'btc': {
+                        'coinmarketcap': 'https://api.coinmarketcap.com/v2/ticker/1/'
+                    }
+            }
+
+    dict_coin_values = {
+                'etn': {},
+                'graft': {},
+                'btc': {}
+            }
+
+    for k, v in dict_coin_all.items():
+        for _, v2 in v.items():
+            if 'coinmarketcap' in _:
+                url = v2
+                response_json = jason(url)
+                dict_coin_values[k].update({
+                    'price_usd': response_json['data']['quotes']['USD']['price'],
+                    'price_eur': response_json['data']['quotes']['USD']['price']/eur_usd,
+                    'percent_change_1h': response_json['data']['quotes']['USD']['percent_change_1h'],
+                    'percent_change_24h': response_json['data']['quotes']['USD']['percent_change_24h'],
+                    'percent_change_7d': response_json['data']['quotes']['USD']['percent_change_7d'],
+                })
+            else:
+                url = v2 
+                response_json = jason(url)
+                dict_coin_values[k].update({'difficulty': response_json['difficulty']/120})
+                if 'graft' in k: dict_coin_values[k].update({'block_reward': virgule(response_json['value'], 10)})
+                elif 'etn' in k: dict_coin_values[k].update({'block_reward': virgule(response_json['value'], 2)})
+            
+    return dict_coin_values
+
+
+def kultur():
+
+    dict_wallet_values = {
+            'etn': {
+                    'payment': 'https://api.nanopool.org/v1/etn/paymentsday/etnk3DMAGRrEUaWweAw2zr4HBwgar9tjfHabe4a466KnSiMx2wBZ5tPBLm3NHg9uEzR39CjkZzUEq6Qss2bZux3v23VjvKf549',
+                    'balance': 'https://api.nanopool.org/v1/etn/balance_hashrate/etnk3DMAGRrEUaWweAw2zr4HBwgar9tjfHabe4a466KnSiMx2wBZ5tPBLm3NHg9uEzR39CjkZzUEq6Qss2bZux3v23VjvKf549'
+                },
+            'graft': {
+                    'payment': 'https://graft.hashvault.pro/api/miner/GDacvVUHegbPmB9Z9Db4uJPRqDCGz9kbzSBuNM89bhdxYhz1qQnHrBrfHXJF2BorVS9aeBffnwgPMQUyEgvw8zvvVEY4v6j/payments?page=0&limit=30',
+                    'balance': 'https://graft.hashvault.pro/api/miner/GDacvVUHegbPmB9Z9Db4uJPRqDCGz9kbzSBuNM89bhdxYhz1qQnHrBrfHXJF2BorVS9aeBffnwgPMQUyEgvw8zvvVEY4v6j/stats'
+                }
+            }
+
+    response = jason(dict_wallet_values['etn']['payment']) 
+    etn_payment = sum([payment['amount'] for payment in response['data']])
+        
+    response = jason(dict_wallet_values['graft']['balance']) 
+    graft_balance = virgule(response['amtDue'], 10)
+
+    response = jason(dict_wallet_values['graft']['payment']) 
+    graft_payment = sum([virgule(payment['amount'], 10) for payment in response if payment['ts'] > int(time.time())-86400])
+
+    dict_wallet_all = {
+            'etn': {
+                    'payment': etn_payment,
+                    'balance': jason(dict_wallet_values['etn']['balance'])['data']['balance']
+                },
+            'graft': {
+                    'payment': graft_payment,
+                    'balance': graft_balance
+                }
+          }
+
+    print('\n... dict_wallet_all:', dict_wallet_all)
+
+    return dict_wallet_all
+    
+kultur()
+
 
 def butterfly():
 
@@ -119,6 +220,7 @@ def butterfly():
             }
     return dict_all
 
+
 @app.route('/g')
 def gintoki():
 
@@ -133,6 +235,7 @@ def gintoki():
                             coin_to_mine = dict_all['coin_to_mine'], 
                             dict_formula=dict_all['dict_formula'],
                             dict_rig_number=dict_all['dict_rig_number'])
+
 
 @app.route('/api', methods=['GET'])
 def get_miner ():

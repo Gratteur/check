@@ -119,7 +119,8 @@ def butterfly():
     dict_rig_number = {
                        1: "201", 
                        2: "202",
-                       3: "203",}
+                       3: "203",
+                       4: "204"}
     dict_pool_int = {"etn": 1, "graft": 2}
     list_hashrate = []
 

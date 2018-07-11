@@ -76,18 +76,18 @@ def renard():
 def kultur():
 
     dict_wallet_values = {
-            'etn': {
-                    'payment': 'https://api.nanopool.org/v1/etn/paymentsday/etnk3DMAGRrEUaWweAw2zr4HBwgar9tjfHabe4a466KnSiMx2wBZ5tPBLm3NHg9uEzR39CjkZzUEq6Qss2bZux3v23VjvKf549',
-                    'balance': 'https://api.nanopool.org/v1/etn/balance_hashrate/etnk3DMAGRrEUaWweAw2zr4HBwgar9tjfHabe4a466KnSiMx2wBZ5tPBLm3NHg9uEzR39CjkZzUEq6Qss2bZux3v23VjvKf549'
-                },
+            #'etn': {
+                    #'payment': 'https://api.nanopool.org/v1/etn/paymentsday/etnk3DMAGRrEUaWweAw2zr4HBwgar9tjfHabe4a466KnSiMx2wBZ5tPBLm3NHg9uEzR39CjkZzUEq6Qss2bZux3v23VjvKf549',
+                    #'balance': 'https://api.nanopool.org/v1/etn/balance_hashrate/etnk3DMAGRrEUaWweAw2zr4HBwgar9tjfHabe4a466KnSiMx2wBZ5tPBLm3NHg9uEzR39CjkZzUEq6Qss2bZux3v23VjvKf549'
+                #},
             'graft': {
                     'payment': 'https://graft.hashvault.pro/api/miner/GDacvVUHegbPmB9Z9Db4uJPRqDCGz9kbzSBuNM89bhdxYhz1qQnHrBrfHXJF2BorVS9aeBffnwgPMQUyEgvw8zvvVEY4v6j/payments?page=0&limit=30',
                     'balance': 'https://graft.hashvault.pro/api/miner/GDacvVUHegbPmB9Z9Db4uJPRqDCGz9kbzSBuNM89bhdxYhz1qQnHrBrfHXJF2BorVS9aeBffnwgPMQUyEgvw8zvvVEY4v6j/stats'
                 }
             }
 
-    response = jason(dict_wallet_values['etn']['payment']) 
-    etn_payment = sum([payment['amount'] for payment in response['data']])
+    #response = jason(dict_wallet_values['etn']['payment']) 
+    #etn_payment = sum([payment['amount'] for payment in response['data']])
         
     response = jason(dict_wallet_values['graft']['balance']) 
     graft_balance = virgule(response['amtDue'], 10)
@@ -96,10 +96,10 @@ def kultur():
     graft_payment = sum([virgule(payment['amount'], 10) for payment in response if payment['ts'] > int(time.time())-86400])
 
     dict_wallet_all = {
-            'etn': {
-                    'payment': etn_payment,
-                    'balance': jason(dict_wallet_values['etn']['balance'])['data']['balance']
-                },
+            #'etn': {
+                    #'payment': etn_payment,
+                    #'balance': jason(dict_wallet_values['etn']['balance'])['data']['balance']
+                #},
             'graft': {
                     'payment': graft_payment,
                     'balance': graft_balance
@@ -119,8 +119,8 @@ def butterfly():
     dict_rig_number = {
                        1: "201", 
                        2: "202",
-                       3: "203",
-                       4: "204"}
+                       3: "302",
+                       }
     dict_pool_int = {"etn": 1, "graft": 2}
     list_hashrate = []
 
